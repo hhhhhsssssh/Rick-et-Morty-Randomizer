@@ -1,6 +1,4 @@
-
-
-// Fonction pour générer un nombre aléatoire entre min et max (inclus)
+// Function to generate a random number between min and max (inclusive)
 function generateRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -9,36 +7,36 @@ const characterCache = {};
 
 function fetchCharacterInfo(characterId) {
   return fetch(`https://rickandmortyapi.com/api/character/${characterId}`)
-    .then(function(response) {
+    .then(function (response) {
       if (!response.ok) {
         throw new Error(`Erreur HTTP, statut : ${response.status}`);
       }
       return response.json();
     })
-    .then(function(data) {
-      // Stocker les informations dans le cache
+    .then(function (data) {
+      // Store the information in the cache
       characterCache[characterId] = data;
       return data;
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.error(
         `Une erreur s'est produite lors de la récupération des informations pour le personnage avec l'ID ${characterId} :`,
         error
       );
-      return null; // En cas d'erreur, retourne null
+      return null; // If there's an error, return null
     });
 }
 
-// Fonction pour afficher les cartes de personnages aléatoires
+// Function to display random character cards
 async function displayRandomCharacterCards() {
   const charactersContainer = document.getElementById("character-container");
-  charactersContainer.innerHTML = ""; // Efface le contenu précédent du conteneur de personnages
+  charactersContainer.innerHTML = ""; // Clear the previous content of the character container
 
   for (let i = 0; i < 12; i++) {
-    const characterId = generateRandomNumber(1, 826); // Génère un ID de personnage aléatoire entre 1 et 826
+    const characterId = generateRandomNumber(1, 826); // Generate a random character ID between 1 and 826
     const characterInfo = await fetchCharacterInfo(characterId);
 
-    // Création de la carte de personnage
+    // Create the character card
     const card = document.createElement("div");
     card.classList.add("character-card");
     card.innerHTML = `
@@ -49,55 +47,54 @@ async function displayRandomCharacterCards() {
       <p><span>Species: </span>${characterInfo.species}</p>
     `;
 
-    // Ajouter un gestionnaire d'événements au clic sur la carte pour ouvrir le modal
+    // Add an event handler for clicking on the card to open the modal
     card.addEventListener("click", () => openModal(characterInfo));
 
     charactersContainer.appendChild(card);
   }
 }
 
-// Appel initial pour afficher 12 cartes de personnages aléatoires
+// Initial call to display 12 random character cards
 displayRandomCharacterCards();
 
-/***********************************************************************************BOUTONS*******************************************************************************************/
+/***********************************************************************************buttons*******************************************************************************************/
 
-// Ajouter des écouteurs d'événements aux boutons de filtrage
+// Add event listeners to the filtering buttons
 const refreshButton = document.getElementById("refresh-button");
 refreshButton.addEventListener("click", () => displayRandomCharacterCards());
 
-// Gestionnaire d'événements pour le bouton "alive-button"
+// Event handler for the "alive-button" button
 const aliveButton = document.getElementById("alive-button");
 aliveButton.addEventListener("click", async () => {
   await displayRandomCharacterCardsWithStatus("Alive");
 });
 
-// Gestionnaire d'événements pour le bouton "dead-button"
+// Event handler for the "dead-button" button
 const deadButton = document.getElementById("dead-button");
 deadButton.addEventListener("click", async () => {
   await displayRandomCharacterCardsWithStatus("Dead");
 });
 
-// Gestionnaire d'événements pour le bouton "unknown-button"
+// Event handler for the "unknown-button" button
 const unknownButton = document.getElementById("unknown-button");
 unknownButton.addEventListener("click", async () => {
   await displayRandomCharacterCardsWithStatus("unknown");
 });
 /************************************************************************************************************************************************************************************/
 
-
-// Fonction pour afficher les cartes de personnages aléatoires avec un statut spécifique
+// Function to display random character cards with a specific status
 async function displayRandomCharacterCardsWithStatus(status) {
   const charactersContainer = document.getElementById("character-container");
-  charactersContainer.innerHTML = ""; // Efface le contenu précédent du conteneur de personnages
+  charactersContainer.innerHTML = ""; // Clear the previous content of the character container
 
   for (let i = 0; i < 12; i++) {
     let characterInfo;
     do {
-      const characterId = generateRandomNumber(1, 826); // Génère un ID de personnage aléatoire entre 1 et 826
+      const characterId = generateRandomNumber(1, 826); // Generate a random character ID between 1 and 826
       characterInfo = await fetchCharacterInfo(characterId);
     } while (characterInfo.status !== status);
 
-    // Création de la carte de personnage
+    // Create the character card
     const card = document.createElement("div");
     card.classList.add("character-card");
     card.innerHTML = `
@@ -112,12 +109,12 @@ async function displayRandomCharacterCardsWithStatus(status) {
   }
 }
 
-// Fonction pour ouvrir le modal avec les informations du personnage
+// Function to open the modal with the character information
 function openModal(characterInfo) {
   const modal = document.getElementById("myModal");
   const modalContent = document.querySelector(".modal-content");
 
-  // Remplacer le contenu du modal avec les informations du personnage
+  // Replace the modal content with the character information
   modalContent.innerHTML = `
     <span class="close">&times;</span>
     <img src="${characterInfo.image}" alt="${characterInfo.name}" />
@@ -127,38 +124,40 @@ function openModal(characterInfo) {
     <p>Episodes: <span id="episodes-list-${characterInfo.id}"></span></p>
 `;
 
-// Récupération et affichage des épisodes
-const episodesList = document.getElementById(`episodes-list-${characterInfo.id}`);
-const episodeNumbers = [];
+  // Retrieve and display the episodes
+  const episodesList = document.getElementById(
+    `episodes-list-${characterInfo.id}`
+  );
+  const episodeNumbers = [];
 
-characterInfo.episode.forEach((episodeURL, index) => {
-  fetch(episodeURL)
-    .then((response) => response.json())
-    .then((data) => {
-      const episodeNumber = data.episode.slice(-2); // Extrait le numéro de l'épisode de l'URL
-      episodeNumbers.push(episodeNumber);
+  characterInfo.episode.forEach((episodeURL, index) => {
+    fetch(episodeURL)
+      .then((response) => response.json())
+      .then((data) => {
+        const episodeNumber = data.episode.slice(-2); // Extract the episode number from the URL
+        episodeNumbers.push(episodeNumber);
 
-      // Vérifie si c'est le dernier épisode à ajouter
-      if (index === characterInfo.episode.length - 1) {
-        episodesList.textContent = episodeNumbers.join(', '); // Joint tous les numéros avec une virgule et les ajoute
-      }
-    })
-    .catch((error) =>
-      console.error("Erreur lors de la récupération de l'épisode :", error)
-    );
-});
+        // Check if it's the last episode to add
+        if (index === characterInfo.episode.length - 1) {
+          episodesList.textContent = episodeNumbers.join(", "); // Concatenate all numbers with a comma and add them
+        }
+      })
+      .catch((error) =>
+        console.error("Erreur lors de la récupération de l'épisode :", error)
+      );
+  });
 
-  // Afficher le modal
+  // Display the modal
   modal.style.display = "block";
 
-  // Ajouter un gestionnaire d'événements au clic sur le symbole de fermeture
+  // Add an event handler for clicking on the close symbol
   const closeModalButton = modalContent.querySelector(".close");
   closeModalButton.addEventListener("click", () => {
     modal.style.display = "none";
   });
 }
 
-// Fermer le modal lorsqu'un clic est effectué en dehors du contenu du modal
+// Close the modal when a click is made outside the modal content
 window.addEventListener("click", (event) => {
   const modal = document.getElementById("myModal");
   if (event.target == modal) {
