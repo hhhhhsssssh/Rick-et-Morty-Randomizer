@@ -1,0 +1,283 @@
+/************************************************************************* Styles généraux ***********************************************************************/
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "get_schwifty";
+  src: url("./get_schwifty.ttf") format("truetype");
+}
+
+body {
+  margin: auto;
+  background-image: linear-gradient(
+    120deg,
+    #04010c 0%,
+    #04010c 70%,
+    #1b046e 100%
+  );
+  background-attachment: fixed;
+}
+
+h1 {
+  color: #04b1cc;
+  font-family: "get_schwifty", sans-serif;
+  font-size: 80px;
+  margin-top: 20px;
+  -webkit-text-stroke: 0.1px #065359;
+  text-shadow: 0 0 4px #d2da4b, 0 0 4px #d2da4b, 0 0 4px #d2da4b,
+    0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b,
+    0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b,
+    0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b,
+    0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b,
+    0 0 6px #d2da4b;
+  transform: translatey(0px);
+  animation: float 4s ease-in-out infinite;
+}
+
+h1 span {
+  font-size: 40px;
+}
+
+header {
+  text-align: center;
+  padding: 1em 0;
+  margin-bottom: 20px;
+}
+
+/********************************************************************** Flexbox pour séparer les colonnes ***********************************************************/
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/***************************************************************************** Style des colonnes ***********************************************************************/
+.character-container {
+  padding-bottom: 10px;
+  display: grid;
+  grid-template-columns: 200px 200px 200px 200px;
+}
+
+.center-image {
+  margin-right: 20px;
+}
+.image-responsive {
+  display: none;
+}
+/********************************************************************** Styles pour les cartes de personnages ***************************************************************/
+.character-card {
+  border: 4px solid #04b1cc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 160px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  color: #04010c;
+  background-color: #04b1cc;
+  cursor: pointer;
+  box-shadow: 3px 3px 1px 1px #d2da4b;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  justify-self: center;
+}
+
+.character-card:hover {
+  background-color: #04b1cc;
+  color: white;
+  transform: scale(1.2);
+}
+
+.character-card img {
+  width: 100px;
+  height: 100px;
+  clip-path: polygon(
+    20% 0%,
+    80% 0%,
+    100% 20%,
+    100% 80%,
+    80% 100%,
+    20% 100%,
+    0% 80%,
+    0% 20%
+  );
+}
+
+.character-card h2 {
+  font-size: 16px;
+  font-family: "get_schwifty", sans-serif;
+  margin: 3px 0;
+}
+
+.character-card p {
+  font-size: 14px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.character-card span {
+  font-weight: bold;
+  font-size: 12px;
+  font-family: "Lucida Sans";
+}
+
+/********************************************************************************* Styles pour les boutons *********************************************************************/
+button {
+  padding: 10px 40px;
+  color: #04b1cc;
+  font-family: "get_schwifty", sans-serif;
+  font-size: 30px;
+  -webkit-text-stroke: 0.1px #065359;
+  text-shadow: 0 0 4px #d2da4b, 0 0 4px #d2da4b, 0 0 4px #d2da4b,
+    0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b,
+    0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b,
+    0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b,
+    0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b, 0 0 6px #d2da4b,
+    0 0 6px #d2da4b;
+  border: #04b1cc solid 4px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 40px 75px 20px;
+  display: block;
+  width: 200px;
+}
+
+button:hover {
+  background-color: #04b1cc;
+  color: white;
+  transform: scale(1.2);
+}
+
+/********************************************************************************* Positionnement de l'image *********************************************************************/
+
+.modal {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.modal-content {
+  border: 4px solid #04b1cc;
+  border-radius: 15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #04b1cc;
+  padding: 20px;
+  max-width: 80;
+  color: #04010c;
+  background-color: #04b1cc;
+  box-shadow: 3px 3px 1px 1px #d2da4b;
+}
+
+.modal-content h2 {
+  font-family: "get_schwifty", sans-serif;
+}
+/*************************************************************************************** The Close Button ****************************************************************************/
+.close {
+  color: #04010c;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@keyframes float {
+  0% {
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+  }
+  50% {
+    box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+    transform: translatey(-20px);
+  }
+  100% {
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 60px;
+  }
+
+  main {
+    flex-direction: column-reverse;
+    align-items: center;
+    padding-bottom: 50px;
+  }
+
+  .character-container {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 0;
+  }
+
+  .character-card {
+    width: 90%;
+  }
+
+  .character-card p {
+    font-size: 12px;
+    margin: 2px 0;
+  }
+
+  .character-card h2 {
+    font-size: 14px;
+  }
+
+  .center-image {
+    width: 40%;
+  }
+
+  #filter-container {
+    text-align: center;
+  }
+
+  button {
+    padding: 5px 30px;
+    font-size: 20px;
+    margin: 10px;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Réduis la taille du titre */
+  h1 {
+    font-size: 60px;
+  }
+
+  /* Ajuste la taille des boutons */
+  button {
+    padding: 10px 30px;
+    font-size: 24px;
+    margin: 10px;
+  }
+
+  .center-image {
+    display: none;
+  }
+  .image-responsive {
+    display: block;
+    width: 90%;
+  }
+
+  main {
+    flex-direction: row-reverse;
+    align-items: flex-start;
+  }
+}
