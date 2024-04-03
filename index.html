@@ -9,23 +9,29 @@
   </head>
 
   <body>
-
     <header>
       <h1>Rick and Morty <span>Randomizer</span></h1>
     </header>
 
     <main>
-      <img src="rick-morty.png" alt="Rick and Morty Image" class="center-image"/>
-      <div id="character-container" class="character-container">
+      <img
+        src="rick-morty.png"
+        alt="Rick and Morty Image"
+        class="center-image"
+      />
+      <div id="character-container" class="character-container"></div>
+      <div id="filter-container">
+        <button id="refresh-button">Refresh</button>
+        <button id="alive-button">Alive</button>
+        <button id="dead-button">Dead</button>
+        <button id="unknown-button">Unknown</button>
+        <img
+          src="rick-morty.png"
+          alt="Rick and Morty Image"
+          class="image-responsive"
+        />
       </div>
-            <div id="filter-container">
-              <button id="refresh-button">Refresh</button>
-              <button id="alive-button">Alive</button>
-              <button id="dead-button">Dead</button>
-              <button id="unknown-button">Unknown</button>
-              <img src="rick-morty.png" alt="Rick and Morty Image" class="image-responsive"/>
-            </div>     
-     
+
       <div id="myModal" class="modal">
         <div class="modal-content">
           <span class="close">&times;</span>
@@ -33,7 +39,5 @@
       </div>
       <div id="overlay"></div>
     </main>
-   
   </body>
-
 </html>
